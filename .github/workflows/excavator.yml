@@ -32,7 +32,7 @@ jobs:
       - name: Clone scripts
         uses: actions/checkout@v7
         with:
-          repository: 'NoPlagiarism/noplga'
+          repository: 'NoPlagiarism/noplag'
           sparse-checkout: scripts
           path: scripts
       - name: Unpack scripts
@@ -47,6 +47,6 @@ jobs:
         shell: bash
         run: uv sync
       - name: "Excavate"
-        run: uv run python ./main.py main
+        run: uv run python ./main.py versions
       - name: Push changes
         uses: ad-m/github-push-action@master
