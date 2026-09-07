@@ -33,7 +33,10 @@ jobs:
         uses: actions/checkout@v7
         with:
           repository: 'NoPlagiarism/noplag'
-          sparse-checkout: scripts
+          sparse-checkout: | 
+            scripts
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
           path: scripts
       - name: Unpack scripts
         shell: bash
