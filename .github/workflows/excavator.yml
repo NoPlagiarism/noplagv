@@ -1,0 +1,52 @@
+on:
+  workflow_dispatch:
+  schedule:
+    # run every 4 hours
+    - cron: '20 */4 * * *'
+name: Excavator
+
+env:
+  PYTHON_VER: "3.12.10"
+  POETRY_VER: "2.3.2"
+
+jobs:
+  excavate:
+    name: Excavate
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@main
+      - name: Excavate
+        uses: ScoopInstaller/GithubActions@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SKIP_UPDATED: 1
+  excavate-add:
+    name: Excavate additional
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./scripts
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Clone scripts
+        uses: actions/checkout@v7
+        with:
+          repository: 'NoPlagiarism/noplga'
+          sparse-checkout: scripts
+          path: scripts
+      - name: Unpack scripts
+        shell: bash
+        working-directory: ./scripts
+        run: mv scripts/{*,.[!.]*,..?*} .
+      - name: Setup uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          enable-cache: true
+      - name: uv sync
+        shell: bash
+        run: uv sync
+      - name: "Excavate"
+        run: uv run python ./main.py main
+      - name: Push changes
+        uses: ad-m/github-push-action@master
