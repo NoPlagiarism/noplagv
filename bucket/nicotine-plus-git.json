@@ -1,0 +1,32 @@
+{
+    "description": "Graphical client for the Soulseek file sharing network",
+    "homepage": "https://nicotine-plus.org",
+    "license": "GPL-3.0-or-later",
+    "extract_dir": "Nicotine+",
+    "notes": "This is currently using fork with fully portable working. After code merges, it will use original code",
+    "pre_install": [
+        "if (!(Test-Path \\\"$dir\\\\portable\")) { New-Item \\\"$dir\\\\portable\\\" -ItemType Directory | Out-Null }"
+    ],
+    "persist": "portable",
+    "shortcuts": [
+        [
+            "Nicotine+.exe",
+            "Nicotine+"
+        ]
+    ],
+    "architecture": {
+        "64bit": {
+            "url": "https://nightly.link/NoPlagiarism/nicotine-plus/actions/artifacts/9986463499.zip",
+            "hash": "fc51e8739fb32065c1f6da0c4b6828cc48d04c493310a0a8969dd7a2542ff75d"
+        },
+        "32bit": {
+            "url": "https://nightly.link/NoPlagiarism/nicotine-plus/actions/artifacts/9986463499.zip",
+            "hash": "fc51e8739fb32065c1f6da0c4b6828cc48d04c493310a0a8969dd7a2542ff75d"
+        },
+        "arm64": {
+            "url": "https://nightly.link/NoPlagiarism/nicotine-plus/actions/artifacts/9986521173.zip",
+            "hash": "bfa3897156e2e6442e37ad4f9d15f1c8b4b6d89e3db5211866fc8966e74a7cc9"
+        }
+    },
+    "version": "5c45770d7"
+}
