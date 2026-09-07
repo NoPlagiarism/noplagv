@@ -23,35 +23,27 @@ jobs:
   excavate-add:
     name: Excavate additional
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./scripts
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
       - name: Clone scripts
         uses: actions/checkout@v7
         with:
-          repository: 'NoPlagiarism/noplag'
-          sparse-checkout: | 
-            scripts
-          sparse-checkout-cone-mode: false
+          repository: 'NoPlagiarism/noplag_scoop_scripts'
           fetch-depth: 1
           path: scripts
-      - name: Unpack scripts
-        shell: bash
-        working-directory: ./scripts
-        run: | 
-          shopt -s dotglob nullglob
-          mv -- ./scripts/* .
       - name: Setup uv
         uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
         with:
           enable-cache: true
+
       - name: uv sync
         shell: bash
+        working-directory: scripts
         run: uv sync
       - name: "Excavate"
+        shell: bash
+        working-directory: scripts
         run: uv run python ./main.py versions
       - name: Push changes
         uses: ad-m/github-push-action@master
